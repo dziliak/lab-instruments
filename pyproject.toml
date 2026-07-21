@@ -5,6 +5,7 @@ description = "Private PyMeasure instrument drivers"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "hid>=1.0.9",
     "pymeasure",
 ]
 
