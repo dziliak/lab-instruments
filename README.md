@@ -11,13 +11,13 @@ for the upstream PyMeasure instrument collection.
 | Manufacturer | Model | Interface | Implementation |
 | --- | --- | --- | --- |
 | Agilent | E4418B power meter | PyMeasure adapter | `AgilentE4418B` |
+| Keysight | P9375A vector network analyzer | PyMeasure adapter | `KeysightP9375A` |
 | LadyBug | 5908L power meter | PyMeasure adapter | `LadyBug5908L` |
 | Marconi Instruments | 2041 signal generator | PyMeasure adapter | `MarconiInstruments2041` |
 | Rigol | DSG815 RF signal generator | PyMeasure adapter | `RigolDSG815` |
 | Mini-Circuits | USB 1-SP8T-852H switch | USB HID | `MiniCircuitsSP8T` |
 
-The Keysight P9375A module is currently only a placeholder and does not yet
-provide an instrument driver.
+The Keysight P9375A driver currently supports sweep start and stop frequency.
 
 Driver coverage varies by instrument. The available interfaces include common
 operations such as frequency, output power, output state, power measurements,
@@ -117,7 +117,7 @@ src/lab_instruments/
 ├── ladybug/        LadyBug 5908L power meter driver
 ├── marconi/        Marconi 2041 signal generator driver
 ├── minicircuits/   Mini-Circuits USB HID switch helper
-├── keysight/       Keysight P9375A placeholder
+├── keysight/       Keysight P9375A vector network analyzer driver
 └── rigol/          Rigol DSG815 signal generator driver
 ```
 
