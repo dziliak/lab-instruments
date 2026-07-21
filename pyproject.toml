@@ -10,6 +10,9 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "detect-secrets>=1.5.0",
+    "ipython>=9.15.0",
+    "pre-commit>=4.6.1",
     "pytest",
     "ruff",
 ]
@@ -27,3 +30,31 @@ addopts = "-ra"
 markers = [
     "device: requires physical test equipment",
 ]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # Pyflakes
+    "I",      # import sorting
+    "B",      # flake8-bugbear
+    "UP",     # pyupgrade
+    "SIM",    # simplifications
+    "RUF",    # Ruff-specific rules
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",   # Allow assert statements in tests, if S is enabled later
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true

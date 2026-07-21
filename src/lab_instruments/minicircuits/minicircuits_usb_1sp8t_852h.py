@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hid
 
-
 VID = 0x20CE
 PID = 0x0022
 PACKET_SIZE = 64
@@ -69,11 +68,9 @@ class MiniCircuitsSP8T:
         try:
             return int(response)
         except ValueError as exc:
-            raise RuntimeError(
-                f"Unexpected switch response: {response!r}"
-            ) from exc
+            raise RuntimeError(f"Unexpected switch response: {response!r}") from exc
 
-    def __enter__(self) -> "MiniCircuitsSP8T":
+    def __enter__(self) -> MiniCircuitsSP8T:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> None:

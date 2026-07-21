@@ -23,16 +23,16 @@
 #
 
 import logging
-from pymeasure.instruments import Instrument, SCPIMixin
-from pymeasure.instruments.validators import strict_discrete_set, strict_range
 
+from pymeasure.instruments import Instrument, SCPIMixin
+from pymeasure.instruments.validators import strict_range
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
 class LadyBug5908L(SCPIMixin, Instrument):
-    """ Represents the LadyBug 5908L power meter
+    """Represents the LadyBug 5908L power meter
     and provides a high-level interface for interacting
     with the instrument.
     """
@@ -54,7 +54,7 @@ class LadyBug5908L(SCPIMixin, Instrument):
         """
         Control the resolution of the power measurement (float).
         """,
-        get_process = lambda x: x[1],
+        get_process=lambda x: x[1],
     )
 
     # trigger_source
@@ -68,7 +68,7 @@ class LadyBug5908L(SCPIMixin, Instrument):
         map_values=True,
         values={True: 1, False: 0},
     )
-    
+
     averaging_enabled = Instrument.control(
         "AVER:STAT?",
         "AVER:STAT %s",
@@ -78,7 +78,7 @@ class LadyBug5908L(SCPIMixin, Instrument):
         map_values=True,
         values={True: 1, False: 0},
     )
-    
+
     # auto_averaging
 
     averaging_counts = Instrument.control(
@@ -88,7 +88,7 @@ class LadyBug5908L(SCPIMixin, Instrument):
         Controls the number of average counts made (int).
         """,
     )
-    
+
     frequency = Instrument.control(
         "FREQ?",
         "FREQ %d",
@@ -117,7 +117,7 @@ class LadyBug5908L(SCPIMixin, Instrument):
         validator=strict_range,
         values=[-100, 100],
     )
-    
+
     # need to check if this works
     offset_gain_enabled = Instrument.control(
         "SENS:CORR:GAIN2:STAT?",
@@ -127,5 +127,3 @@ class LadyBug5908L(SCPIMixin, Instrument):
         """,
         cast=bool,
     )
-
-    

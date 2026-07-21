@@ -23,16 +23,16 @@
 #
 
 import logging
-from pymeasure.instruments import Instrument, SCPIMixin
-from pymeasure.instruments.validators import strict_discrete_set, strict_range
 
+from pymeasure.instruments import Instrument
+from pymeasure.instruments.validators import strict_discrete_set, strict_range
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
 class MarconiInstruments2041(Instrument):
-    """ Represents the Marconi 2041 signal generator
+    """Represents the Marconi 2041 signal generator
     and provides a high-level interface for interacting
     with the instrument.
     """
@@ -53,12 +53,12 @@ class MarconiInstruments2041(Instrument):
         "RFLV:%s",
         """Control whether the RF output is enabled.""",
         validator=strict_discrete_set,
-        values={False: 'OFF', True: 'ON'},
-        set_process=lambda x: 'ON' if x else 'OFF',
+        values={False: "OFF", True: "ON"},
+        set_process=lambda x: "ON" if x else "OFF",
         get_process=lambda x: "ON" in x,  # ':RFLV:UNITS DBM;VALUE -26.7;INC 0.1;OFF\n'
-       )
+    )
 
-    # Marconi operation manual refers to this as Carrier Frequency but 
+    # Marconi operation manual refers to this as Carrier Frequency but
     # center_frequency was used to conform w/ property names of other
     # signal generators.
     center_frequency = Instrument.control(
@@ -67,17 +67,21 @@ class MarconiInstruments2041(Instrument):
         """Control the carrier frequency in Hz.""",
         validator=strict_range,
         values=[10e3, 2.7e9],
-        get_process=lambda f: float(f.split(' ')[1].split(';')[0]),  # ':CFRQ:VALUE 52000000.0;INC 1000.0\n'
-       )
+        get_process=lambda f: float(
+            f.split(" ")[1].split(";")[0]
+        ),  # ':CFRQ:VALUE 52000000.0;INC 1000.0\n'
+    )
 
     power = Instrument.control(
         "RFLV?",
         "RFLV:UNITS DBM;VALUE %f; INC 0.1",
         """Control the RF output power in dBm""",
         validator=strict_range,
-        values=[-144,10],
-        get_process=lambda p: float(p.split(';')[1].split(' ')[1]),  # ':RFLV:UNITS DBM;VALUE -26.7;INC 0.1;OFF\n'
-        )
-    
+        values=[-144, 10],
+        get_process=lambda p: float(
+            p.split(";")[1].split(" ")[1]
+        ),  # ':RFLV:UNITS DBM;VALUE -26.7;INC 0.1;OFF\n'
+    )
+
     # disable modulation
     # signal generator mode (noise1, noise2, normal)

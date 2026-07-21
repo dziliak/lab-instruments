@@ -24,8 +24,11 @@
 
 import logging
 
-from pymeasure.instruments import Channel, Instrument
-from pymeasure.instruments.validators import strict_range, strict_discrete_set, strict_discrete_range
+from pymeasure.instruments import Channel, Instrument, SCPIMixin
+from pymeasure.instruments.validators import (
+    strict_discrete_set,
+    strict_range,
+)
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
@@ -137,7 +140,7 @@ class PowerMeterChannel(Channel):
         Valid units are ['W', 'DBM']. (string)
         """,
         cast=str,
-        values=['W', 'DBM'],
+        values=["W", "DBM"],
         validator=strict_discrete_set,
     )
 
@@ -153,7 +156,8 @@ class AgilentE4418B(SCPIMixin, Instrument):
     windows on the display.
 
     :param pymeasure.adapter adapter: Adapter used to connect to instrument
-    :param str name: Name of the device or generated from the `AgilentE4418B.id` call on `__init__`
+    :param str name: Name of the device or generated from the `AgilentE4418B.id`
+                     call on `__init__`
     :param includeSCPI: Keyword arguments for the adapter.
     :param kwargs: Keyword arguments for the adapter.
     """
@@ -229,21 +233,21 @@ class AgilentE4418B(SCPIMixin, Instrument):
         """
         Restore instrument to preset values.
         """
-        self.write('SYST:PRES')
+        self.write("SYST:PRES")
 
     # TODO Perform Cal
     def calibrate(self):
         """
         Calibrates the power meter.
         """
-        self.write('CAL:AUTO ONCE')
+        self.write("CAL:AUTO ONCE")
 
     # TODO Perform Cal
     def zero(self):
         """
         Zeros the power meter.
         """
-        self.write('CAL:ZERO:AUTO ONCE')
+        self.write("CAL:ZERO:AUTO ONCE")
 
     # TODO Check Zero and Cal Status
 
