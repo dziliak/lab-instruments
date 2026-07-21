@@ -1,4 +1,4 @@
-from .hp import AgilentE4418B
+from .agilent import AgilentE4418B
 from .keysight import KeysightP9375A
 from .ladybug import LadyBug5908L
 from .marconi import MarconiInstruments2041

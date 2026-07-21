@@ -113,7 +113,7 @@ be skipped unless the required hardware is available.
 
 ```text
 src/lab_instruments/
-├── hp/             Agilent E4418B power meter driver
+├── agilent/        Agilent E4418B power meter driver
 ├── ladybug/        LadyBug 5908L power meter driver
 ├── marconi/        Marconi 2041 signal generator driver
 ├── minicircuits/   Mini-Circuits USB HID switch helper
