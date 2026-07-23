@@ -49,6 +49,15 @@ For development, install the tools declared in the `dev` dependency group
 uv sync --dev
 ```
 
+To use this library and test from Jupyter, run the following:
+
+```bash
+uv run --group notebook python -m ipykernel install \
+    --user \
+    --name lab-instruments \
+    --display-name "Python (lab-instruments)"
+```
+
 ## Usage
 
 PyMeasure drivers accept any compatible PyMeasure adapter, such as a VISA

@@ -1,10 +1,19 @@
+# Jupyter
+.ipynb_checkpoints/
+
+# Local notebook output
+notebooks/output/
+notebooks/data/
+
 # Python-generated files
 __pycache__/
-*.py[oc]
+*.py[cod]
 build/
 dist/
 wheels/
 *.egg-info
+.pytest_cache/
+.ruff_cache/
 
 # Mac Specific
 .DS_Store

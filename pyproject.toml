@@ -17,6 +17,13 @@ dev = [
     "pytest",
     "ruff",
 ]
+notebook = [
+    "ipykernel>=7.3.0",
+    "ipywidgets>=8.1.8",
+    "jupyterlab>=4.6.2",
+    "matplotlib>=3.11.1",
+    "pandas>=3.0.3",
+]
 
 [build-system]
 requires = ["hatchling"]
