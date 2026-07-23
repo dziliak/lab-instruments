@@ -57,10 +57,10 @@ class MiniCircuitsSP8T:
         if port not in range(1, 9):
             raise ValueError("Port must be from 1 through 8")
 
-        response = self.send_scpi(f":SP8T:STATE:{port}")
+        self.send_scpi(f":SP8T:STATE:{port}")
 
-        if response:
-            print(f"Set response: {response}")
+        # if response:
+        #     print(f"Set response: {response}")
 
     def get_port(self) -> int:
         response = self.send_scpi(":SP8T:STATE?")

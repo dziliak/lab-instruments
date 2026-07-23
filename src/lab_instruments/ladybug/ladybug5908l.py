@@ -1,7 +1,7 @@
 #
 # This file is part of the PyMeasure package.
 #
-# Copyright (c) 2013-2025 PyMeasure Developers
+# Copyright (c) 2013-2026 PyMeasure Developers
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,15 @@ class LadyBug5908L(SCPIMixin, Instrument):
             send_end=True,
             **kwargs,
         )
+
+    auto_averaging = Instrument.control(
+        "AVER:COUN:AUTO?",
+        "AVER:COUN:AUTO %d",
+        """
+        Controls auto averaging (bool).
+        """,
+        get_process=lambda x: x[1],
+    )
 
     resolution = Instrument.control(
         "CONF?",
