@@ -27,15 +27,17 @@ from pathlib import Path
 
 from pymeasure.instruments import Channel, Instrument
 from pymeasure.instruments.generic_types import SCPIMixin
+from pymeasure.instruments.validators import strict_range
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
 class KeysightP9375A_Channels(Channel):
-    """
-    Channel implimentation for the Keysight P9375A VNA
-    """
+    """Channel implementation for the Keysight P9375A VNA."""
+
+    MIN_FREQUENCY_HZ = 300e3
+    MAX_FREQUENCY_HZ = 26.5e9
 
     scan_points = Instrument.control(
         "SENS{ch}:SWE:POIN?",
@@ -120,20 +122,24 @@ class KeysightP9375A_Channels(Channel):
     )
 
     start_frequency = Instrument.control(
-        "SENS{ch}:FREQ:STAR?",
-        "SENS{ch}:FREQ:STAR %g",
+        ":SENS{ch}:FREQ:START?",
+        ":SENS{ch}:FREQ:START %.12gHz",
         """
         Starting frequency of the VNA sweep in Hz (float).
         """,
+        validator=strict_range,
+        values=(MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ),
         cast=float,
     )
 
     stop_frequency = Instrument.control(
-        "SENS{ch}:FREQ:STOP?",
-        "SENS{ch}:FREQ:STOP %g",
+        ":SENS{ch}:FREQ:STOP?",
+        ":SENS{ch}:FREQ:STOP %.12gHz",
         """
         Stopping frequency of the VNA sweep in Hz (float).
         """,
+        validator=strict_range,
+        values=(MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ),
         cast=float,
     )
 
@@ -279,6 +285,31 @@ class KeysightP9375A(SCPIMixin, Instrument):
     """
     Minimum viable code to perform TDR Measurement
     """
+
+    MIN_FREQUENCY_HZ = 300e3
+    MAX_FREQUENCY_HZ = 26.5e9
+
+    start_frequency = Instrument.control(
+        ":SENS1:FREQ:START?",
+        ":SENS1:FREQ:START %.12gHz",
+        """
+        Starting frequency of the VNA sweep in Hz (float).
+        """,
+        validator=strict_range,
+        values=(MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ),
+        cast=float,
+    )
+
+    stop_frequency = Instrument.control(
+        ":SENS1:FREQ:STOP?",
+        ":SENS1:FREQ:STOP %.12gHz",
+        """
+        Stopping frequency of the VNA sweep in Hz (float).
+        """,
+        validator=strict_range,
+        values=(MIN_FREQUENCY_HZ, MAX_FREQUENCY_HZ),
+        cast=float,
+    )
 
     def __init__(self, adapter, name="VNA", **kwargs):
         super().__init__(adapter, name, **kwargs)

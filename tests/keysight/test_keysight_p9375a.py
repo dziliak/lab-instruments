@@ -21,6 +21,7 @@ def test_frequency_range_protocol():
 
 
 @pytest.mark.parametrize("property_name", ["start_frequency", "stop_frequency"])
-def test_frequency_range_validation(property_name):
+@pytest.mark.parametrize("frequency", [299999, 26.5e9 + 1])
+def test_frequency_range_validation(property_name, frequency):
     with expected_protocol(KeysightP9375A, []) as analyzer, pytest.raises(ValueError):
-        setattr(analyzer, property_name, 299999)
+        setattr(analyzer, property_name, frequency)
