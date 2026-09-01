@@ -12,12 +12,15 @@ for the upstream PyMeasure instrument collection.
 | --- | --- | --- | --- |
 | Agilent | E4418B power meter | PyMeasure adapter | `AgilentE4418B` |
 | Keysight | P9375A vector network analyzer | PyMeasure adapter | `KeysightP9375A` |
+| Fluke | 8846A digital multimeter | PyMeasure adapter | `Fluke8846A` |
 | LadyBug | 5908L power meter | PyMeasure adapter | `LadyBug5908L` |
 | Marconi Instruments | 2041 signal generator | PyMeasure adapter | `MarconiInstruments2041` |
 | Rigol | DSG815 RF signal generator | PyMeasure adapter | `RigolDSG815` |
 | Mini-Circuits | USB 1-SP8T-852H switch | USB HID | `MiniCircuitsSP8T` |
 
-The Keysight P9375A driver currently supports sweep start and stop frequency.
+The Keysight P9375A driver supports sweep configuration, averaging, triggering,
+output power, and Touchstone SnP export in addition to sweep start and stop
+frequency.
 
 Driver coverage varies by instrument. The available interfaces include common
 operations such as frequency, output power, output state, power measurements,
@@ -27,20 +30,15 @@ commands and ranges.
 
 ## Installation
 
-This project requires Python 3.11 or newer. Install it in an environment with
-`pip`:
+This project requires Python 3.11 or newer. Install it with `uv`:
 
 ```bash
-python -m pip install -e .
+uv sync
 ```
 
-The package depends on [PyMeasure](https://pymeasure.readthedocs.io/). The
-Mini-Circuits USB switch driver additionally requires the `hid` Python package,
-which is not part of the default project dependencies:
-
-```bash
-python -m pip install hid
-```
+The package depends on [PyMeasure](https://pymeasure.readthedocs.io/) and
+`hidapi` for the Mini-Circuits USB switch. These dependencies are installed by
+the project configuration.
 
 For development, install the tools declared in the `dev` dependency group
 (using `uv`):
@@ -101,22 +99,37 @@ permissions, and a connected instrument.
 
 ## Development
 
-There is not currently a checked-in test suite. When tests are added, run them
-with:
+Run the test suite with:
 
 ```bash
-python -m pytest
+uv run pytest
 ```
 
 Run linting and formatting checks with:
 
 ```bash
-ruff check
-ruff format --check
+uv run ruff check
+uv run ruff format --check
 ```
 
 Tests that require physical equipment should use the `device` marker and may
 be skipped unless the required hardware is available.
+
+## Hardware setup
+
+VISA-based drivers require a VISA backend, such as NI-VISA or pyvisa-py, and a
+connected instrument. Pass the instrument's VISA resource string to
+`VISAAdapter`, for example:
+
+```python
+from pymeasure.adapters import VISAAdapter
+
+adapter = VISAAdapter("TCPIP0::192.0.2.10::INSTR")
+```
+
+The Mini-Circuits switch requires a compatible USB connection and appropriate
+USB permissions. Device tests are skipped unless the required hardware and
+resource configuration are available.
 
 ## Project layout
 
